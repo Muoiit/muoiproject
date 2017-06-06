@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+use App\Post;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','role_id','is_Active','photo_id'
     ];
 
     /**
@@ -31,4 +31,26 @@ class User extends Authenticatable
     public function role(){
         return $this->belongsTo('App\Role');
     }
+
+    public function photo(){
+        return $this->belongsTo('App\Photo');
+    }
+
+
+    public function isAdmin(){
+
+        if($this->role->name =="Administrator" && $this->is_Active==1){
+
+            return true;
+        }
+
+         return false;
+    }
+
+
+    public function posts(){
+        return $this->hasMany('App\Post');
+    }
+
+
 }
